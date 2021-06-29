@@ -1,0 +1,2 @@
+Sets us to owner straight away?
+>> contract.Fal1out({ value: 1})
