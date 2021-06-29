@@ -1,0 +1,42 @@
+Uses a pseudo-random bool based on blocknumber.
+Could ram 10 consecutive transactions into a block until we win,
+but that's blocked by if (lastHash == blockValue)
+
+We can pull the logic into another contract, determine the result,
+and then feed into the CoinFlip contract.
+
+Eg:
+Guess true, run the logic, see the answer's true, send true into 
+CoinFlip.
+Guess true, run the logic, see the answer's false, change our 
+guess and send false into CoinFlip.
+
+Making the new contract:
+copy and paste CoinFlip
+at the top, import the original coinflip contract:
+
+>> import "./coinflip.sol";
+
+change the contract name to CoinFlipLogic
+
+>> contract CoinFlipLogic {
+
+change the constructor so that instead of counting wins, we
+instantiate the real coinflip contract:
+
+>> constructor(address _target) public {
+>>     CoinFlip coinflip = CoinFlip(_target);
+>> }
+
+at the end of the contract, change the if/else block so that
+instead of changing our consecutiveWins, we send the right 
+answer to the real CoinFlip contract!
+
+>> return coinflip.flip(side);
+
+when you deploy your CoinFlipLogic contract, pass the address of
+the true CoinFlip contract into the constructor.
+
+Now get clicking, not too fast, only 1 flip per block.
+Its probably a good idea to check you're winning on the real CoinFlip:
+>> await contract.consecutiveWins()
