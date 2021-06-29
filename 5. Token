@@ -1,0 +1,9 @@
+This is a uint overflow problem (hence the odometer tip)
+
+in transfer(), the require can be read as:
+require(20 - x >= 0)
+this doesn't use safemath or solc >=0.8.0 so we can overflow 
+the uints. 20 - 21 = big big int (not -1, because it's unsigned)
+
+so we call transfer([any address], 21)
+>> await contract.transfer("0x...", 21)
