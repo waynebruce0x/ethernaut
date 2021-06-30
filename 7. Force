@@ -1,0 +1,18 @@
+I'll make a payable function with a selfdestruct(). Self Destruct is a 
+robust way of jamming ether into an address
+
+contract Pay {
+    function ForcePay(address payable _address) public payable {
+        selfdestruct(_address);
+    }
+}
+
+But I actually couldnt figure out how to call this function and pay at the same time!
+So I split it into a receive, and an address-taking.
+
+contract Pay {
+    receive() external payable {}
+    function ForcePay(address payable _address) public {
+        selfdestruct(_address);
+    }
+}
