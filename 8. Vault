@@ -1,0 +1,11 @@
+We somehow need the password. Private means it's only visible
+for the Vault contract. Maybe we can pass password into unlock()?
+
+After some Googling it turns out you can just read the storage.
+I think vars are always stored in the order they're declared
+
+>> await web3.eth.getStorageAt([VaultContractAddress], 1)
+
+Then feed the response into unlock()
+
+>> await contract.unlock([password])
