@@ -1,0 +1,11 @@
+There's 'if' logic in the withdraw function that sends funds to 
+the sender address. Following this, and outside of the block,
+the sender's balance is updated.
+
+Re-entrancy issues arise when the function is escaped at a bad
+time (ie funds have been withdrawn but balances havent been 
+updated yet!)
+
+so we want to enter both if blocks, and somehow fall over inside
+the inner if block (because its between transfer and accounting)
+

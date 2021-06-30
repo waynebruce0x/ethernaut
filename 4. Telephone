@@ -2,7 +2,7 @@ This is claimed by chained transactions.
 
 f_A(f_B(f_C()))
 ^^ From the perspective of f_C(), msg.sender is f_B(), but 
-tx.rigin is f_A()
+tx.origin is f_A()
 
 So if we make a simple relay contract, we'll gain ownership
 

