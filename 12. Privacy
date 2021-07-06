@@ -1,0 +1,19 @@
+To unlock the contract we need the key, bytes16(data[2]). Did a lot of faffing
+around trying to decode the transaction input data but to no avail. Maybe 
+the method we used in exercise 8:
+
+The last storage slot we can query is 5, this will be data[3], therefore data[2] 
+will be slot 4. This is probably because bool, uint8 etc don't need full slots.
+
+>> await web3.eth.getStorageAt([ContractAddress], 4)
+
+expect this is in bytes32, so we'll cast it to bytes16
+
+contract Privacy {
+    function decode() public returns (bytes16) {
+        bytes32 memor = [bytes32data];
+        return bytes16(memor);
+    }
+}
+
+

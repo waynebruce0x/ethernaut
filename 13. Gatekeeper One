@@ -1,0 +1,3 @@
+gate one: feed transaction through another address (smart contract)
+gate two: ensure gasleft() is an integer multiple of 8191
+gate three: some sort of encoding 
